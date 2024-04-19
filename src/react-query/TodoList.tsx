@@ -13,20 +13,19 @@ const TodoList = () => {
     axios
       .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
       .then((res) => res.data);
-
-  const { data: todos } = useQuery({
+  //specify the type of data and error
+  const { data: todos, error } = useQuery<Todo[], Error>({
     queryKey: ["todos"],
     queryFn: fetchTodos,
   });
 
-  // if (error) return <p>{error}</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <ul className="list-group">
       {todos?.map(
-        (
-          todo //? is optional chaining
-        ) => (
+        //? is optional chaining
+        (todo) => (
           <li key={todo.id} className="list-group-item">
             {todo.title}
           </li>

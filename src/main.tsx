@@ -5,13 +5,12 @@ import App from "./App";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient;
+const queryClient = new QueryClient(); //forgot the ()
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient} >
-
+    <QueryClientProvider client={queryClient}>
+      {<App /> /*  App shall be inside */}
     </QueryClientProvider>
-    <App />
   </React.StrictMode>
 );
