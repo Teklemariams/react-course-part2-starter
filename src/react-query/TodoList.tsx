@@ -1,41 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-
-interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-}
-
+import useTodos from "./hooks/useTodos";
+//NOW this component is only concerned with markup,
+//NOT on how it is gonna be fetched
 const TodoList = () => {
-  const fetchTodos = () =>
-    axios
-      .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => res.data);
-  //specify the type of data and error
-  const {
-    data: todos,
-    error,
-    isLoading,
-  } = useQuery<Todo[], Error>({
-    queryKey: ["todos"],
-    queryFn: fetchTodos,
-  });
+  const { data: todos, error, isLoading } = useTodos();
 
   if (isLoading) return <p>Loading...</p>; //spinner is also possible
   if (error) return <p>{error.message}</p>;
 
   return (
     <ul className="list-group">
-      {todos?.map(
-        //? is optional chaining
-        (todo) => (
-          <li key={todo.id} className="list-group-item">
-            {todo.title}
-          </li>
-        )
-      )}
+      {todos?.map((todo) => (
+        <li key={todo.id} className="list-group-item">
+          {todo.title}
+        </li>
+      ))}
     </ul>
   );
 };
